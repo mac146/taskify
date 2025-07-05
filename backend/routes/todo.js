@@ -7,7 +7,7 @@ const authmiddleware = require("../middleware/authmiddleware");
 
  router.post("/",authmiddleware,async(req,res)=>{
    
-    const userid=req.userId;
+    const userid=req.id;
     const title=req.body.title;
     const description=req.body.description;
     const completed=req.body.completed;
@@ -46,7 +46,8 @@ router.get("/",authmiddleware,async(req,res)=>{
 router.put("/:id",authmiddleware,async(req,res)=>{
    
   const todoId = req.params.id;
-  const userId = req.userId;
+  const userId = req.id;
+  ;
   const { title, description, completed } = req.body;
 
   try {
@@ -68,7 +69,7 @@ router.put("/:id",authmiddleware,async(req,res)=>{
 
 router.delete("/:id",authmiddleware,async(req,res)=>{
     const todoId = req.params.id;
-    const userId = req.userId;
+    const userId = req.id;
     try{
     const deletetodo= await todoModel.findOneAndDelete({ _id: todoId, userId })
     if(!deletetodo){

@@ -52,3 +52,9 @@ async function addtask() {
 
     document.getElementById("task-list").appendChild(li);
 }
+    document.getElementById("add-task-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    addtask();
+});
+
+

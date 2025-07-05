@@ -10,6 +10,8 @@ async function signup() {
   });
 
   alert("You are signed up!");
+  window.location.href = "dashboard.html";
+
 }
 
 async function signin() {

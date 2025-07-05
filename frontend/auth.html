@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div>
+        signup
+        <input id="a" type="username" placeholder="enter your username">
+        <input id="b" type="password" placeholder="enter your password">
+        <button onclick="signup()">sumbit</button>
+    </div>
+    <div>
+        signin
+        <input id="c" type="username" placeholder="enter your username">
+        <input id="d" type="password" placeholder="enter your password">
+        <button onclick="signin()">sumbit</button>
+    </div>
+
+   
+
+    <div>
+        <button onclick="logout()">logout</button>
+    </div>
+    
+    <script>
+        async function signup(){
+            const username=document.getElementById("a").value
+            const password=document.getElementById("b").value
+            await axios.post("http://localhost:3000/signup",{
+                username:username,
+                password:password
+            });
+            alert("you are signed in")
+        }
+
+       async function signin(){
+            const username=document.getElementById("c").value
+            const password=document.getElementById("d").value
+            const response= await axios.post("http://localhost:3000/signin",{
+                username:username,
+                password:password
+            });
+            localStorage.setItem("token",response.data.token)
+            alert("you are signed in")
+             window.location.href = "index.html";
+        } 
+
+        async function logout(){
+            localStorage.removeItem("token")
+        }
+    </script>
+</body>
+</html>

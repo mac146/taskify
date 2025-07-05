@@ -1,12 +1,17 @@
 async function addtask(){
     const title=document.getElementById("a").value
+    const token = localStorage.getItem("token");
     const response=await axios.post("http://localhost:3000/",
        {
         title:title,
         description: title,
         completed:false
-       }
-    )
+       },{
+    headers: {                                   // 🔸 Line 2: send token in headers
+        token: token                             // 🔸 Line 3: actual token key-value
+    }
+});
+    
     const li=document.createElement("li")
     li.innerHTML=response.data.title
 

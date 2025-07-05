@@ -1,43 +1,54 @@
-async function addtask(){
-    const title=document.getElementById("a").value
+async function addtask() {
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
     const token = localStorage.getItem("token");
-    const response=await axios.post("http://localhost:3000/",
-       {
-        title:title,
-        description: title,
-        completed:false
-       },{
-    headers: {                                   // 🔸 Line 2: send token in headers
-        token: token                             // 🔸 Line 3: actual token key-value
-    }
-});
-    
-    const li=document.createElement("li")
-    li.innerHTML=response.data.title
 
-    const button=document.createElement("button")
-    button.innerHTML="delete"
-    button.onclick= async function(){
-        const id=response.data.id;
-        await axios.delete("http://localhost:3000/"+id)
-       li.remove();
-    }
+    const response = await axios.post("http://localhost:3000/todos", {
+        title: title,
+        description: description,
+        completed: false
+    }, {
+        headers: {
+            token: token
+        }
+    });
 
-    const edit=document.createElement("button")
-    edit.innerHTML="edit"
-    edit.onclick=async function(){
-        const id=response.data.id
-        const newtitle=prompt("enter your new title : ")
-        await axios.put("http://localhost:3000/"+id,{
-            title:newtitle
-        })
-        li.innerHTML=newtitle;
-         li.appendChild(edit);
-   li.appendChild(button);
-    }
+    const li = document.createElement("li");
+    li.innerHTML = response.data.todo.title + " - " + response.data.todo.description;
+
+    const button = document.createElement("button");
+    button.innerHTML = "delete";
+    button.onclick = async function () {
+        const id = response.data.todo._id;
+        await axios.delete("http://localhost:3000/todos/" + id, {
+            headers: {
+                token: token
+            }
+        });
+        li.remove();
+    };
+
+    const edit = document.createElement("button");
+    edit.innerHTML = "edit";
+    edit.onclick = async function () {
+        const id = response.data.todo._id;
+        const newtitle = prompt("Enter your new title:");
+        const newdesc = prompt("Enter your new description:");
+        const updated = await axios.put("http://localhost:3000/todos/" + id, {
+            title: newtitle,
+            description: newdesc
+        }, {
+            headers: {
+                token: token
+            }
+        });
+        li.innerHTML = updated.data.todo.title + " - " + updated.data.todo.description;
+        li.appendChild(edit);
+        li.appendChild(button);
+    };
+
     li.appendChild(edit);
-   li.appendChild(button);
+    li.appendChild(button);
 
-    document.getElementById("taskList").appendChild(li);
-
+    document.getElementById("task-list").appendChild(li);
 }

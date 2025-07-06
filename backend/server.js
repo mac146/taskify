@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const app=express()
 app.use(express.json())
+const cors = require("cors");
+app.use(cors());
 
 mongoose.connect("mongodb+srv://mayankkumars584:Mayank%40146@cluster0.t1lcct0.mongodb.net/taskify-database")
 

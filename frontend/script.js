@@ -9,8 +9,9 @@ async function addtask() {
         completed: false
     }, {
         headers: {
-            token: token
-        }
+    Authorization: `Bearer ${token}`
+}
+
     });
 
     const li = document.createElement("li");
@@ -22,8 +23,9 @@ async function addtask() {
         const id = response.data.todo._id;
         await axios.delete("http://localhost:3000/todos/" + id, {
             headers: {
-                token: token
-            }
+             Authorization: `Bearer ${token}`
+}
+
         });
         li.remove();
     };
@@ -39,8 +41,9 @@ async function addtask() {
             description: newdesc
         }, {
             headers: {
-                token: token
-            }
+  Authorization: `Bearer ${token}`
+}
+
         });
         li.innerHTML = updated.data.todo.title + " - " + updated.data.todo.description;
         li.appendChild(edit);

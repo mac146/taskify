@@ -3,16 +3,21 @@ async function signup() {
   const email = document.getElementById("e").value;
   const password = document.getElementById("b").value;
 
-  await axios.post("http://localhost:3000/signup", {
-    username,
-    email,
-    password
-  });
+  try {
+    const response = await axios.post("http://localhost:3000/signup", {
+      username,
+      email,
+      password
+    });
 
-  alert("You are signed up!");
-  window.location.href = "dashboard.html";
-
+    alert("You are signed up!");
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    console.error("Signup failed:", error.response?.data || error.message);
+    alert("Signup failed: " + (error.response?.data?.message || "Unknown error"));
+  }
 }
+
 
 async function signin() {
   const email = document.getElementById("c").value;

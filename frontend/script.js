@@ -9,7 +9,7 @@ async function addtask() {
         completed: false
     }, {
         headers: {
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${localStorage.getItem("token")}`
 }
 
     });
@@ -23,7 +23,7 @@ async function addtask() {
         const id = response.data.todo._id;
         await axios.delete("http://localhost:3000/todos/" + id, {
             headers: {
-             Authorization: `Bearer ${token}`
+             Authorization: `Bearer ${localStorage.getItem("token")}`
 }
 
         });
@@ -41,7 +41,7 @@ async function addtask() {
             description: newdesc
         }, {
             headers: {
-  Authorization: `Bearer ${token}`
+  Authorization: `Bearer ${localStorage.getItem("token")}`
 }
 
         });

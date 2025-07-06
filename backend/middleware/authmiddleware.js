@@ -1,22 +1,26 @@
-const express=require('express')
-const jwt=require('jsonwebtoken')
-const Jwt_SECRET="macc1234";
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const Jwt_SECRET = "macc1234";
 
-function authmiddleware(req,res,next){
+function authmiddleware(req, res, next) {
     const authHeader = req.headers.authorization;
-const token = authHeader && authHeader.split(" ")[1];
 
-    try{
-    const decoded = jwt.verify(token, Jwt_SECRET);
-    if(decoded.id){
-        req.id=decoded.id
-    next();
+    if (!authHeader) {
+        return res.status(403).json({ message: "Authorization header missing" });
     }
-    else{
-    res.status(403).json({ message: "Invalid token" });
+
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+        return res.status(403).json({ message: "Token missing" });
     }
-    }catch(e){
-        res.status(403).json({message:"invalid token"})
+
+    try {
+        const decoded = jwt.verify(token, Jwt_SECRET);
+        req.id = decoded.id;
+        next();
+    } catch (e) {
+        res.status(403).json({ message: "invalid token" });
     }
 }
+
 module.exports = authmiddleware;

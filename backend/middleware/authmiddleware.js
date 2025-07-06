@@ -3,7 +3,9 @@ const jwt=require('jsonwebtoken')
 const Jwt_SECRET="macc1234";
 
 function authmiddleware(req,res,next){
-    const token=req.headers.token;
+    const authHeader = req.headers.authorization;
+const token = authHeader && authHeader.split(" ")[1];
+
     try{
     const decoded = jwt.verify(token, Jwt_SECRET);
     if(decoded.id){
